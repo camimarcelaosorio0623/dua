@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DUA Inclusive Club · Welcome to our paradise — La Paz, Puebla</title>
-<meta name="description" content="DUA Inclusive Club en Av. Juárez 2707, La Paz, Puebla. Shows drag cada viernes, pop a todo volumen y una pista donde todes caben. Aparta tu preventa o mesa por WhatsApp.">
+<meta name="description" content="DUA Inclusive Club en Av. Juárez 2707, La Paz, Puebla. Shows drag, noches temáticas y una pista donde todes caben. No cover hasta las 12 AM y botellas desde $699 de 8 a 10:30 PM. Aparta tu mesa por WhatsApp.">
 <meta property="og:title" content="DUA Inclusive Club · The night belongs to us">
-<meta property="og:description" content="Shows drag cada viernes en La Paz, Puebla. Aparta tu preventa por WhatsApp.">
-<meta property="og:image" content="/img/fl1.jpg">
+<meta property="og:description" content="Shows drag y noches temáticas en La Paz, Puebla. No cover hasta las 12 AM. Aparta tu mesa por WhatsApp.">
+<meta property="og:image" content="/img/og.jpg">
 <meta name="theme-color" content="#0b0612">
 <link rel="icon" href="/img/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
 
 <header id="hdr"><nav>
   <a href="#top" class="logo neon" aria-label="DUA Inclusive Club">dua</a>
-  <div class="links"><a href="#show">Próximo show</a><a href="#cartelera">Cartelera</a><a href="#seguro">Espacio seguro</a><a href="#ubicacion">Ubicación</a></div>
+  <div class="links"><a href="#show">Próximo show</a><a href="#cartelera">Cartelera</a><a href="#barra">Botellas</a><a href="#seguro">Espacio seguro</a><a href="#ubicacion">Ubicación</a></div>
   <a href="#pase" class="btn btn-rosa"><svg viewBox="0 0 32 32"><use href="#ico-wa"/></svg>Apartar mesa</a>
 </nav></header>
 
@@ -31,11 +31,12 @@
     <div>
       <span class="kicker">Inclusive Club · La Paz, Puebla</span>
       <h1><span class="neon mega on" aria-label="DUA">dua</span><span class="tag"><b class="iri">Inclusive Club</b>Welcome to our paradise</span></h1>
-      <p class="sub">Shows drag cada viernes, pop a todo volumen y una pista donde todes caben. <b>The night belongs to us.</b></p>
+      <p class="sub">Shows drag, noches temáticas, pop a todo volumen y una pista donde todes caben. <b>The night belongs to us.</b></p>
+      <ul class="ganchos"><li data-site-if="offers.cover"><span data-site="offers.cover"></span></li><li data-site-if="offers.happyHour"><a href="#barra" data-site="offers.happyHour"></a></li></ul>
       <div class="hero-btns"><a href="#pase" class="btn btn-rosa"><svg viewBox="0 0 32 32"><use href="#ico-wa"/></svg>Apartar mi lugar</a><a href="#show" class="btn btn-glass">Ver el próximo show</a></div>
       <div class="estado" id="estado"><span class="dot"></span>Consultando…</div>
     </div>
-    <div class="arco reveal" id="arco"><div class="in"><img src="/img/hero.jpg" alt="Show drag en vivo en DUA" fetchpriority="high"><span class="cap">The night belongs to us</span></div></div>
+    <div class="arco reveal" id="arco"><div class="in"><video id="hero-vid" muted loop playsinline preload="none" poster="/img/hero.jpg" data-src="/img/hero.mp4" aria-label="Así se vive una noche en DUA"></video><span class="cap">The night belongs to us</span></div></div>
   </div>
   <div class="scroll-hint">Desliza</div>
 </section>
@@ -50,19 +51,26 @@
     <p class="estelar" id="s-estelar"></p>
     <div class="cd" id="cd"><div><b id="cd-d">00</b><span>días</span></div><div><b id="cd-h">00</b><span>hrs</span></div><div><b id="cd-m">00</b><span>min</span></div><div><b id="cd-s">00</b><span>seg</span></div></div>
     <div class="precios" id="s-precios"></div>
-    <a class="btn btn-rosa" id="s-cta" href="#pase"><svg viewBox="0 0 32 32"><use href="#ico-wa"/></svg>Apartar mi preventa</a>
+    <a class="btn btn-rosa" id="s-cta" href="#pase"><svg viewBox="0 0 32 32"><use href="#ico-wa"/></svg><span id="s-cta-txt">Apartar mi preventa</span></a>
     <div class="meta" id="s-meta"></div>
   </div>
 </div></section>
 
 <!-- CARTELERA -->
 <section class="sec" id="cartelera" style="padding-top:40px"><div class="wrap">
-  <div class="reveal"><span class="kicker">Cartelera</span><h2 class="h2"><span class="iri">Lo que viene</span> y <span class="s">lo que se vivió</span></h2><p class="lead">Cada viernes hay show. Aparta la preventa por WhatsApp y entra sin hacer fila.</p></div>
+  <div class="reveal"><span class="kicker">Cartelera</span><h2 class="h2"><span class="iri">Lo que viene</span> y <span class="s">lo que se vivió</span></h2><p class="lead">Jueves, viernes y sábados con show o temática. Aparta tu mesa por WhatsApp y llega antes de las 12: no pagas cover.</p></div>
   <div class="rail" id="rail" data-state="loading" aria-busy="true"></div>
 </div></section>
 
 <div class="mq" aria-hidden="true"><div class="tr" id="mq1"></div></div>
 <div class="mq dos" aria-hidden="true"><div class="tr" id="mq2"></div></div>
+
+<!-- BARRA · PROMOS DE BOTELLA -->
+<section class="sec barra" id="barra"><div class="wrap">
+  <div class="reveal"><span class="kicker">Barra</span><h2 class="h2"><span class="iri">Botellas</span> <span class="s">en promo</span></h2><p class="lead">Todos los días de 8:00 a 10:30 PM, cada botella con 3 mezcladores. Llega temprano, aparta tu mesa con botella y no pagas cover hasta las 12.</p></div>
+  <div class="promos" id="promos" data-state="loading" aria-busy="true"></div>
+  <p class="fine cen">Precios en MXN. Promo sujeta a disponibilidad. Consumo responsable, solo mayores de 18.</p>
+</div></section>
 
 <!-- ESPACIO SEGURO -->
 <section class="sec seguro" id="seguro"><div class="wrap grid">
@@ -82,24 +90,25 @@
 <section class="sec" style="padding-top:20px"><div class="wrap">
   <div class="cen reveal"><span class="kicker">El ambiente</span><h2 class="h2">Así se vive <span class="s">la noche</span></h2></div>
   <div class="amb reveal">
-    <figure><img src="/img/event.jpg" alt="Drag queen en la pista de DUA" loading="lazy"><figcaption>Show drag en vivo<small>Cada viernes</small></figcaption></figure>
-    <figure><img src="/img/crowd.jpg" alt="Amigas posando con una drag queen" loading="lazy"><figcaption>La comunidad<small>Llega con tu gente o haz gente nueva</small></figcaption></figure>
-    <figure><img src="/img/hero.jpg" alt="Show en el escenario" loading="lazy"><figcaption>El escenario<small>Luces, humo y mucho brillo</small></figcaption></figure>
+    <figure><img src="/img/event.jpg" alt="Drag cantando en vivo en DUA" loading="lazy"><figcaption>Show drag en vivo<small>Cada fin de semana</small></figcaption></figure>
+    <figure><img src="/img/crowd.jpg" alt="Amigas posando con una drag en DUA" loading="lazy"><figcaption>La comunidad<small>Llega con tu gente o haz gente nueva</small></figcaption></figure>
+    <figure><img src="/img/amb/escenario.jpg" alt="Show en el escenario de DUA con la pista llena" loading="lazy"><figcaption>El escenario<small>Luces, humo y mucho brillo</small></figcaption></figure>
     <div class="quote"><p>Welcome to our paradise ✦</p></div>
   </div>
 </div></section>
 
 <!-- TU PASE -->
 <section class="sec pase-sec" id="pase"><div class="wrap">
-  <div class="reveal"><span class="kicker">Tu pase</span><h2 class="h2"><span class="iri">Arma tu noche</span> <span class="s">en 3 toques</span></h2><p class="lead">Elige y te mandamos directo a WhatsApp con el mensaje listo. Te contestamos para confirmar.</p></div>
+  <div class="reveal"><span class="kicker">Tu pase</span><h2 class="h2"><span class="iri">Arma tu noche</span> <span class="s">en un minuto</span></h2><p class="lead">Elige, súmale botella si quieres, y te mandamos directo a WhatsApp con el mensaje listo. Te contestamos para confirmar.</p></div>
   <div class="pase-grid">
     <form id="form" class="reveal">
       <div class="paso"><div class="lbl"><i>1</i>¿A qué vienes?</div><div class="opts" id="o-ev"></div></div>
       <div class="paso"><div class="lbl"><i>2</i>¿Qué noche?</div><div class="opts" id="o-dia"></div></div>
       <div class="paso"><div class="lbl"><i>3</i>¿Cuántos son?</div><div class="opts" id="o-ppl"></div></div>
+      <div class="paso" id="paso-bt" hidden><div class="lbl"><i>4</i>¿Le sumas botella? <span class="opc">promo 8 a 10:30 PM</span></div><div class="opts" id="o-bt"></div></div>
       <!-- Solo en el flujo 'api' (VITE_RESERVATION_FLOW=api): ver src/lib/reservation.js -->
       <div class="paso campos" data-api-only hidden>
-        <div class="lbl"><i>4</i>¿A nombre de quién?</div>
+        <div class="lbl"><i>5</i>¿A nombre de quién?</div>
         <label class="campo"><span>Nombre</span><input name="name" autocomplete="name" placeholder="Tu nombre" disabled><span class="err" data-error-for="name"></span></label>
         <label class="campo"><span>WhatsApp / teléfono</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="10 dígitos" disabled><span class="err" data-error-for="phone"></span></label>
         <label class="check"><input name="consent" type="checkbox" disabled><span>Autorizo que DUA me contacte para confirmar. <a data-site-href="privacyPolicyUrl" target="_blank" rel="noopener">Aviso de privacidad</a></span><span class="err" data-error-for="consent"></span></label>
@@ -139,8 +148,8 @@
 </div></section>
 
 <section class="cierre">
-  <img src="/img/crowd.jpg" alt="" loading="lazy">
-  <div class="wrap reveal"><h2>¿Nos vemos <span class="s">este viernes?</span></h2><p>Escríbenos y te apartamos mesa en un minuto. Tú nada más llega con ganas.</p><a href="#pase" class="btn btn-rosa"><svg viewBox="0 0 32 32"><use href="#ico-wa"/></svg>Apartar mesa por WhatsApp</a></div>
+  <img src="/img/amb/pista.jpg" alt="" loading="lazy">
+  <div class="wrap reveal"><h2>¿Nos vemos <span class="s">este finde?</span></h2><p>Escríbenos y te apartamos mesa en un minuto. Llega antes de las 12 y entras sin cover.</p><a href="#pase" class="btn btn-rosa"><svg viewBox="0 0 32 32"><use href="#ico-wa"/></svg>Apartar mesa por WhatsApp</a></div>
 </section>
 <div class="pride-line"></div>
 

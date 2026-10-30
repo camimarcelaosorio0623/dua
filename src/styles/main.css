@@ -210,3 +210,29 @@ footer .legal{max-width:1200px;margin:34px auto 0;padding-top:20px;border-top:1p
 .res-msg{margin-top:12px;font-weight:700}.res-msg:empty{display:none}.res-msg a{color:var(--rosa);text-decoration:underline}
 #form[data-state=sending] button[type=submit]{opacity:.6;pointer-events:none}
 .resenas blockquote{max-width:320px;text-align:left}.resenas cite{display:block;margin-top:6px;font-size:.82rem;font-style:normal;color:var(--rosa)}
+/* v2.1 · noviembre: ganchos del hero, video del arco, promos de botella, no cover en cartelera */
+.ganchos{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:-12px 0 26px}
+.ganchos li{padding:8px 14px;border-radius:999px;font-size:.8rem;font-weight:800;letter-spacing:.04em;border:1px solid rgba(255,79,174,.45);background:rgba(255,79,174,.1)}
+.ganchos li:first-child{background:linear-gradient(135deg,var(--rosa),var(--magenta));border-color:transparent}
+.ganchos a{color:inherit}
+.arco video{width:100%;height:100%;object-fit:cover;display:block}
+.fc .cover{display:inline-block;margin-top:8px;padding:4px 10px;border-radius:999px;font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--rosa);border:1px solid rgba(255,79,174,.45)}
+.promos{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:40px;align-items:start}
+.promos .vacio{grid-column:1/-1;text-align:center;color:var(--mut)}
+.bt{border-radius:22px;border:1px solid var(--line);background:var(--panel);overflow:hidden;transition:transform .4s var(--ease),border-color .4s}
+.bt:hover{transform:translateY(-4px);border-color:rgba(255,79,174,.5)}
+.bt.top{border-color:var(--rosa);box-shadow:0 0 40px rgba(255,79,174,.25)}
+.bt .ph{aspect-ratio:4/5;overflow:hidden}
+.bt .ph img{width:100%;height:100%;object-fit:cover}
+.bt .b{padding:20px 22px 24px}
+.bt h3{font-family:'Playfair Display',serif;font-weight:800;font-size:1.35rem}
+.bt .pr{font-size:2.3rem;font-weight:900;color:var(--rosa);line-height:1.1;margin:6px 0 4px}
+.bt .pr small{font-size:.9rem;color:var(--mut);margin-right:6px;font-weight:700}
+.bt .inc{font-size:.86rem;color:var(--mut)}
+.bt .marcas{margin:14px 0 18px;font-size:.86rem}
+.bt .marcas summary{cursor:pointer;font-weight:700;color:var(--blanco)}
+.bt .marcas p{margin-top:8px;color:var(--mut);line-height:1.5}
+.bt .btn{width:100%}
+.paso .lbl .opc{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+@media(max-width:900px){.ganchos{justify-content:center}}
+@media(max-width:860px){.promos{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:78%;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:-22px;padding:0 22px 20px}.bt{scroll-snap-align:center}.bt.top{order:-1}}

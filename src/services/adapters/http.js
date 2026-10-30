@@ -9,12 +9,14 @@ import { request } from './request.js';
 
 export const ENDPOINTS = {
   events: '/events?status=published',
+  promotions: '/promotions?status=published',
   reservations: '/reservations',
   reservationStatus: (id) => `/reservations/${encodeURIComponent(id)}`,
 };
 
 export const httpAdapter = {
   getEvents: () => request(ENDPOINTS.events),
+  getPromotions: () => request(ENDPOINTS.promotions),
   submitReservation: (req) => request(ENDPOINTS.reservations, { method: 'POST', body: req }),
   getReservationStatus: (id) => request(ENDPOINTS.reservationStatus(id)),
 };

@@ -9,7 +9,13 @@ const ms = (iso) => new Date(iso).getTime();
 const endOf = (e) => (e.endsAt ? ms(e.endsAt) : ms(e.startsAt) + 6 * 3600e3);
 export const eventDate = (e) => pueblaDate(ms(e.startsAt));
 const label = (e) => shortDate(eventDate(e));
-const presaleMsg = (e) => `Hola DUA 💖 Quiero apartar preventa para ${e.title} (${label(e)}). ¿Cómo la aparto?`;
+const hasPresale = (e) => e.presalePrice != null;
+const presaleMsg = (e) => hasPresale(e)
+  ? `Hola DUA 💖 Quiero apartar preventa para ${e.title} (${label(e)}). ¿Cómo la aparto?`
+  : `Hola DUA 💖 Quiero apartar mesa para ${e.title} (${label(e)}). ¿Tienen lugar?`;
+/** Texto del CTA según haya preventa o no. */
+export const ctaLabel = (e) => (hasPresale(e) ? 'Apartar mi preventa' : 'Apartar mesa para esa noche');
+const PAST_SHOWN = 3;
 
 /**
  * Próximos (del más cercano al más lejano) y los que se vivieron (del más reciente al más viejo).
@@ -17,7 +23,7 @@ const presaleMsg = (e) => `Hola DUA 💖 Quiero apartar preventa para ${e.title}
  */
 export function splitEvents(events, now = Date.now()) {
   const future = events.filter((e) => endOf(e) > now).sort((a, b) => ms(a.startsAt) - ms(b.startsAt));
-  const past = events.filter((e) => endOf(e) <= now).sort((a, b) => ms(b.startsAt) - ms(a.startsAt));
+  const past = events.filter((e) => endOf(e) <= now).sort((a, b) => ms(b.startsAt) - ms(a.startsAt)).slice(0, PAST_SHOWN);
   return { future, past, next: future[0] || null };
 }
 
@@ -27,7 +33,7 @@ function wireCta(a, e) {
   a.href = waLink(presaleMsg(e));
   a.target = '_blank';
   a.rel = 'noopener';
-  a.addEventListener('click', () => track('presale_whatsapp_click', { eventId: e.id }));
+  a.addEventListener('click', () => track(hasPresale(e) ? 'presale_whatsapp_click' : 'event_table_whatsapp_click', { eventId: e.id }));
 }
 
 let timer;
@@ -43,6 +49,7 @@ export function renderNextShow(next, fallbackImage) {
     $('#s-meta').innerHTML = '';
     $('#s-badge').hidden = true;
     $('#s-cta').href = '#pase';
+    $('#s-cta-txt').textContent = 'Apartar mesa';
     img.src = fallbackImage;
     img.alt = '';
     return;
@@ -56,13 +63,18 @@ export function renderNextShow(next, fallbackImage) {
   img.src = safeUrl(next.image) || fallbackImage;
   img.alt = next.imageAlt || next.title;
   $('#s-title').textContent = next.title;
-  $('#s-estelar').innerHTML = next.headliners.length ? `Show estelar <b>${next.headliners.map(esc).join(' · ')}</b>` : '';
+  $('#s-estelar').innerHTML = next.headliners.length
+    ? `Show estelar <b>${next.headliners.map(esc).join(' · ')}</b>`
+    : next.tagline ? `<b>${esc(next.tagline)}</b>` : '';
   const pre = next.presalePrice, door = next.doorPrice;
   $('#s-precios').innerHTML =
     (pre != null ? `<div class="precio pre"><small>Preventa</small><b>$${pre}</b></div>` : '') +
     (door != null ? `<div class="precio"><small>Taquilla</small><b>$${door}</b></div>` : '') +
-    (pre != null && door != null && door > pre ? `<span class="ahorro">¡Ahorras $${door - pre}!</span>` : '');
-  $('#s-meta').innerHTML = `<span>${label(next)} · puertas ${esc(site.hours.openLabel)}</span><span>+${site.minAge} con identificación</span><span>${esc(site.phone.label)}</span>`;
+    (pre != null && door != null && door > pre ? `<span class="ahorro">¡Ahorras $${door - pre}!</span>` : '') +
+    (pre == null && next.coverNote ? `<div class="precio pre"><small>Entrada</small><b>${esc(next.coverNote)}</b></div>` : '') +
+    (next.dressCode ? `<div class="precio"><small>Dress code</small><b>${esc(next.dressCode)}</b></div>` : '');
+  $('#s-meta').innerHTML = `<span>${label(next)} · abrimos ${esc(site.hours.openLabel)}</span>${next.headliners.length && next.tagline ? `<span>${esc(next.tagline)}</span>` : ''}<span>+${site.minAge} con identificación</span><span>${esc(site.phone.label)}</span>`;
+  $('#s-cta-txt').textContent = ctaLabel(next);
   wireCta($('#s-cta'), next);
 
   const cd = $('#cd');
@@ -90,8 +102,9 @@ export function renderRail(box, { future, past, next }, state = future.length + 
     const isPast = past.includes(e), isNext = e === next;
     return `<article class="fc reveal ${isPast ? 'pasado' : ''}${isNext ? ' prox' : ''}">
       <div class="ph"><span class="sello">${isPast ? 'Se vivió' : isNext ? 'Próximo' : 'Muy pronto'}</span><img src="${esc(safeUrl(e.image))}" alt="${esc(e.imageAlt || e.title)}" loading="lazy"></div>
-      <div class="b"><div class="d">${label(e)}</div><h3>${esc(e.title)}</h3><div class="l">${e.headliners.map(esc).join(' · ')}</div>
-      ${isPast || e.presalePrice == null ? '' : `<a class="a" data-event="${esc(e.id)}">Preventa $${e.presalePrice} →</a>`}</div>
+      <div class="b"><div class="d">${label(e)}</div><h3>${esc(e.title)}</h3><div class="l">${[e.tagline, ...e.headliners].filter(Boolean).map(esc).join(' · ')}</div>
+      ${!isPast && e.coverNote && !hasPresale(e) ? `<span class="cover">${esc(e.coverNote)}</span>` : ''}
+      ${isPast ? '' : `<a class="a" data-event="${esc(e.id)}">${hasPresale(e) ? `Preventa $${e.presalePrice}` : 'Apartar mesa'} →</a>`}</div>
     </article>`;
   }).join('');
   box.querySelectorAll('a[data-event]').forEach((a) => wireCta(a, future.find((e) => e.id === a.dataset.event)));

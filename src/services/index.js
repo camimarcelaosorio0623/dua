@@ -12,9 +12,15 @@ import { httpAdapter } from './adapters/http.js';
 const adapter = config.dataSource === 'http' ? httpAdapter : mockAdapter;
 
 /** @returns {Promise<import('./types.js').EventItem[]>} */
-export async function getEvents() {
+export async function getEvents(now = Date.now()) {
   const events = await adapter.getEvents();
-  return events.filter((e) => e.status === 'published');
+  return events.filter((e) => e.status === 'published' && (!e.publishAt || new Date(e.publishAt).getTime() <= now));
+}
+
+/** @returns {Promise<import('./types.js').Promotion[]>} */
+export async function getPromotions() {
+  const promos = await adapter.getPromotions();
+  return promos.filter((p) => p.status === 'published');
 }
 
 /** @param {import('./types.js').ReservationRequest} req

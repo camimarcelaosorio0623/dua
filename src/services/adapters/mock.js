@@ -8,6 +8,7 @@
 import { config } from '../../config/env.js';
 import { ServiceError } from '../types.js';
 import { eventsMock } from '../../data/mocks/events.js';
+import { promotionsMock } from '../../data/mocks/promotions.js';
 
 const scenario = config.mockScenario;
 const wait = (ms) => new Promise((r) => setTimeout(r, scenario === 'lento' ? ms * 4 : ms));
@@ -22,6 +23,10 @@ export const mockAdapter = {
   async getEvents() {
     await wait(200);
     return scenario === 'vacio' ? [] : clone(eventsMock);
+  },
+  async getPromotions() {
+    await wait(200);
+    return scenario === 'vacio' ? [] : clone(promotionsMock);
   },
 
   async submitReservation(/** @type {import('../types.js').ReservationRequest} */ _req) {

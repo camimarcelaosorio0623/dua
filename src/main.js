@@ -4,15 +4,17 @@ import { initHeader, initReveal } from './lib/reveal.js';
 import { waLink } from './lib/whatsapp.js';
 import { isDemo } from './config/env.js';
 import { site } from './config/site.js';
-import { getEvents } from './services/index.js';
+import { getEvents, getPromotions } from './services/index.js';
 import { initStatus, renderHours } from './components/status.js';
 import { splitEvents, renderNextShow, renderRail } from './components/shows.js';
 import { initPass } from './components/pass.js';
+import { renderPromos } from './components/promos.js';
+import { initHeroVideo } from './components/hero.js';
 import { renderFaq } from './components/faq.js';
 import { initLocation, injectJsonLd } from './components/location.js';
 import { renderMarquees, initHolo, initSparkles } from './components/effects.js';
 
-const STAGGER = '.rail,.pilares';
+const STAGGER = '.rail,.pilares,.promos';
 const FALLBACK_IMG = '/img/hero.jpg';
 
 document.getElementById('demo-flag').hidden = !isDemo;
@@ -26,6 +28,7 @@ initLocation();
 initHolo();
 initSparkles();
 initHeader();
+initHeroVideo();
 initReveal(STAGGER);
 
 $$('#wa, #f-wa').forEach((a) => {
@@ -35,16 +38,21 @@ $$('#wa, #f-wa').forEach((a) => {
 });
 
 const rail = $('#rail');
-getEvents()
-  .then((events) => {
-    const split = splitEvents(events);
-    renderNextShow(split.next, split.past[0]?.image || FALLBACK_IMG);
+const promoBox = $('#promos');
+Promise.allSettled([getEvents(), getPromotions()]).then(([ev, pr]) => {
+  const promos = pr.status === 'fulfilled' ? pr.value : [];
+  renderPromos(promoBox, promos, pr.status === 'fulfilled' ? undefined : 'error');
+
+  let next = null;
+  if (ev.status === 'fulfilled') {
+    const split = splitEvents(ev.value);
+    next = split.next;
+    renderNextShow(next, split.past[0]?.image || FALLBACK_IMG);
     renderRail(rail, split);
-    initPass(split.next);
-  })
-  .catch(() => {
+  } else {
     renderNextShow(null, FALLBACK_IMG);
     renderRail(rail, { future: [], past: [], next: null }, 'error');
-    initPass(null);
-  })
-  .finally(() => initReveal(STAGGER));
+  }
+  initPass(next, promos);
+  initReveal(STAGGER);
+});
